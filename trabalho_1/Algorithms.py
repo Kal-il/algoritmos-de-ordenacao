@@ -1,3 +1,47 @@
+import random
+
+# Bubble Sort
+
+class BubbleSort:
+    def __init__(self, arr):
+        self.arr = arr
+
+    def sort(self):
+        for i in range(len(self.arr)):
+            for j in range(len(self.arr) - 1):
+                if self.arr[j] > self.arr[j + 1]:
+                    self.arr[j], self.arr[j + 1] = self.arr[j + 1], self.arr[j]
+        return self.arr
+
+# Selection Sort
+
+class SelectionSort:
+    def __init__(self, arr):
+        self.arr = arr
+    def sort(self):
+        for i in range(len(self.arr)):
+            min_index = i
+            for j in range(i + 1, len(self.arr)):
+                if self.arr[j] < self.arr[min_index]:
+                    min_index = j
+            self.arr[i], self.arr[min_index] = self.arr[min_index], self.arr[i]
+        return self.arr
+
+# Insertion Sort
+
+class InsertionSort:
+    def __init__(self, arr):
+        self.arr = arr
+
+    def sort(self):
+        for i in range(1, len(self.arr)):
+            key = self.arr[i]
+            j = i - 1
+            while j >= 0 and key < self.arr[j]:
+                self.arr[j + 1] = self.arr[j]
+                j -= 1
+            self.arr[j + 1] = key
+        return self.arr
 # Merge Sort
 
 class MergeSort:
@@ -41,46 +85,6 @@ class MergeSort:
         self.merge_sort()
         return self.arr
 
-# Bubble Sort
-
-class BubbleSort:
-    def __init__(self, arr):
-        self.arr = arr
-
-    def sort(self):
-        for i in range(len(self.arr)):
-            for j in range(len(self.arr) - 1):
-                if self.arr[j] > self.arr[j + 1]:
-                    self.arr[j], self.arr[j + 1] = self.arr[j + 1], self.arr[j]
-        return self.data
-
-# Insertion Sort
-
-class InsertionSort:
-    def __init__(self):
-        pass
-
-    def sort(self, arr):
-        for i in range(1, len(arr)):
-            key = arr[i]
-            j = i - 1
-            while j >= 0 and key < arr[j]:
-                arr[j + 1] = arr[j]
-                j -= 1
-            arr[j + 1] = key
-        return arr
-
-# Selection Sort
-
-class SelectionSort:
-    def sort(self, data):
-        for i in range(len(data)):
-            min_index = i
-            for j in range(i + 1, len(data)):
-                if data[j] < data[min_index]:
-                    min_index = j
-            data[i], data[min_index] = data[min_index], data[i]
-        return data
 
 # Quick Sort
 
@@ -98,6 +102,10 @@ class QuickSort:
             self._quick_sort_helper(pivot_index + 1, high)
 
     def _partition(self, low, high):
+        # Escolher um pivô aleatório e trocá-lo com o último elemento
+        random_pivot = random.randint(low, high)
+        self.arr[high], self.arr[random_pivot] = self.arr[random_pivot], self.arr[high]
+
         pivot = self.arr[high]
         i = low - 1
 
