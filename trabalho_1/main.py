@@ -30,8 +30,7 @@ def generate_random_list(size):
     return random.sample(range(size * 2), size)
 
 def runfn(alg_name, AlgClass):
-    # sizes = [1000, 10000, 50000, 100000] 
-    sizes = [1000, 2000, 3000]
+    sizes = [1000, 10000, 50000, 100000] 
     vetor_ordenada = []
     vetor_inversa = []
     vetor_randomica = []# Tamanhos das listas
@@ -162,12 +161,10 @@ if __name__ == "__main__":
     ]
     
     # Tamanhos de listas a serem testadas
-    sizes = [1000, 2000, 3000]
+    sizes = [1000, 10000, 50000, 100000]
     
     for alg_name, AlgClass in algorithms:
         vetor_ordenada, vetor_inversa, vetor_randomica, vetor_compara_ord, vetor_trocas_ord, vetor_compara_inv, vetor_trocas_inv, vetor_compara_rand, vetor_trocas_rand = runfn(alg_name=alg_name, AlgClass=AlgClass)
-        for vc in vetor_compara_ord:
-            print(vc)
         plotfunc(sizes, vetor_ordenada, vetor_inversa, vetor_randomica, alg_name=alg_name)
         plot_comparisons_and_swaps(sizes, vetor_compara_ord, vetor_trocas_ord, vetor_compara_inv, vetor_trocas_inv, vetor_compara_rand, vetor_trocas_rand, alg_name)
         
