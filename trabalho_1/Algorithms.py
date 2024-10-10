@@ -1,52 +1,68 @@
 import random
 
 # Bubble Sort
-
 class BubbleSort:
     def __init__(self, arr):
         self.arr = arr
+        self.comparisons = 0  # Para contar comparações
+        self.swaps = 0        # Para contar trocas
 
     def sort(self):
         for i in range(len(self.arr)):
             for j in range(len(self.arr) - 1):
+                self.comparisons += 1  # Contando a comparação
                 if self.arr[j] > self.arr[j + 1]:
                     self.arr[j], self.arr[j + 1] = self.arr[j + 1], self.arr[j]
-        return self.arr
+                    self.swaps += 1  # Contando a troca
+        return self.arr, self.comparisons, self.swaps
 
 # Selection Sort
-
 class SelectionSort:
     def __init__(self, arr):
         self.arr = arr
+        self.comparisons = 0  # Para contar comparações
+        self.swaps = 0        # Para contar trocas
+    
     def sort(self):
         for i in range(len(self.arr)):
             min_index = i
             for j in range(i + 1, len(self.arr)):
+                self.comparisons += 1  # Contando a comparação
                 if self.arr[j] < self.arr[min_index]:
                     min_index = j
-            self.arr[i], self.arr[min_index] = self.arr[min_index], self.arr[i]
-        return self.arr
+            if min_index != i:
+                self.arr[i], self.arr[min_index] = self.arr[min_index], self.arr[i]
+                self.swaps += 1  # Contando a troca
+        return self.arr, self.comparisons, self.swaps
 
 # Insertion Sort
-
 class InsertionSort:
     def __init__(self, arr):
         self.arr = arr
+        self.comparisons = 0  # Para contar comparações
+        self.swaps = 0        # Para contar trocas
 
     def sort(self):
         for i in range(1, len(self.arr)):
             key = self.arr[i]
             j = i - 1
-            while j >= 0 and key < self.arr[j]:
-                self.arr[j + 1] = self.arr[j]
-                j -= 1
+            while j >= 0:
+                self.comparisons += 1  # Contando a comparação
+                if key < self.arr[j]:
+                    self.arr[j + 1] = self.arr[j]
+                    self.swaps += 1  # Contando a troca
+                    j -= 1
+                else:
+                    break
             self.arr[j + 1] = key
-        return self.arr
-# Merge Sort
+        return self.arr, self.comparisons, self.swaps
 
+# Merge Sort
 class MergeSort:
     def __init__(self, arr):
         self.arr = arr
+        self.comparisons = 0  # Para contar comparações
+        self.swaps = 0        # Para contar trocas
 
     def merge_sort(self, arr=None):
         if arr is None:
@@ -63,6 +79,7 @@ class MergeSort:
             i = j = k = 0
 
             while i < len(left_half) and j < len(right_half):
+                self.comparisons += 1  # Contando a comparação
                 if left_half[i] < right_half[j]:
                     arr[k] = left_half[i]
                     i += 1
@@ -83,14 +100,14 @@ class MergeSort:
 
     def sort(self):
         self.merge_sort()
-        return self.arr
-
+        return self.arr, self.comparisons, self.swaps
 
 # Quick Sort
-
 class QuickSort:
     def __init__(self, arr):
         self.arr = arr
+        self.comparisons = 0  # Para contar comparações
+        self.swaps = 0        # Para contar trocas
 
     def quick_sort(self):
         self._quick_sort_helper(0, len(self.arr) - 1)
@@ -102,30 +119,34 @@ class QuickSort:
             self._quick_sort_helper(pivot_index + 1, high)
 
     def _partition(self, low, high):
-        # Escolher um pivô aleatório e trocá-lo com o último elemento
         random_pivot = random.randint(low, high)
         self.arr[high], self.arr[random_pivot] = self.arr[random_pivot], self.arr[high]
+        self.swaps += 1  # Contando a troca
 
         pivot = self.arr[high]
         i = low - 1
 
         for j in range(low, high):
+            self.comparisons += 1  # Contando a comparação
             if self.arr[j] <= pivot:
                 i += 1
                 self.arr[i], self.arr[j] = self.arr[j], self.arr[i]
+                self.swaps += 1  # Contando a troca
 
         self.arr[i + 1], self.arr[high] = self.arr[high], self.arr[i + 1]
+        self.swaps += 1  # Contando a troca
         return i + 1
 
     def sort(self):
         self.quick_sort()
-        return self.arr
+        return self.arr, self.comparisons, self.swaps
 
 # Heap Sort
-
 class HeapSort:
     def __init__(self, arr):
         self.arr = arr
+        self.comparisons = 0  # Para contar comparações
+        self.swaps = 0        # Para contar trocas
 
     def heap_sort(self):
         n = len(self.arr)
@@ -135,6 +156,7 @@ class HeapSort:
 
         for i in range(n - 1, 0, -1):
             self.arr[i], self.arr[0] = self.arr[0], self.arr[i]
+            self.swaps += 1  # Contando a troca
             self._heapify(i, 0)
 
     def _heapify(self, n, i):
@@ -142,16 +164,21 @@ class HeapSort:
         left = 2 * i + 1
         right = 2 * i + 2
 
-        if left < n and self.arr[i] < self.arr[left]:
-            largest = left
+        if left < n:
+            self.comparisons += 1  # Contando a comparação
+            if self.arr[i] < self.arr[left]:
+                largest = left
 
-        if right < n and self.arr[largest] < self.arr[right]:
-            largest = right
+        if right < n:
+            self.comparisons += 1  # Contando a comparação
+            if self.arr[largest] < self.arr[right]:
+                largest = right
 
         if largest != i:
             self.arr[i], self.arr[largest] = self.arr[largest], self.arr[i]
+            self.swaps += 1  # Contando a troca
             self._heapify(n, largest)
 
     def sort(self):
         self.heap_sort()
-        return self.arr
+        return self.arr, self.comparisons, self.swaps
