@@ -62,7 +62,7 @@ class MergeSort:
     def __init__(self, arr):
         self.arr = arr
         self.comparisons = 0  # Para contar comparações
-        self.swaps = 0        # Para contar trocas
+        self.assignments = 0  # Para contar atribuições (em vez de trocas)
 
     def merge_sort(self, arr=None):
         if arr is None:
@@ -82,25 +82,30 @@ class MergeSort:
                 self.comparisons += 1  # Contando a comparação
                 if left_half[i] < right_half[j]:
                     arr[k] = left_half[i]
+                    self.assignments += 1  # Contando a atribuição
                     i += 1
                 else:
                     arr[k] = right_half[j]
+                    self.assignments += 1  # Contando a atribuição
                     j += 1
                 k += 1
 
             while i < len(left_half):
                 arr[k] = left_half[i]
+                self.assignments += 1  # Contando a atribuição
                 i += 1
                 k += 1
 
             while j < len(right_half):
                 arr[k] = right_half[j]
+                self.assignments += 1  # Contando a atribuição
                 j += 1
                 k += 1
 
     def sort(self):
         self.merge_sort()
-        return self.arr, self.comparisons, self.swaps
+        return self.arr, self.comparisons, self.assignments
+
 
 # Quick Sort
 class QuickSort:
