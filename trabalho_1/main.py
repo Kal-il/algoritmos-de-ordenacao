@@ -1,6 +1,7 @@
 import random
 import time
 import matplotlib.pyplot as plt
+from tabulate import tabulate
 from Algorithms import (
     MergeSort,
     BubbleSort,
@@ -41,30 +42,40 @@ def runfn(alg_name, AlgClass):
     vetor_trocas_inv = []
     vetor_trocas_rand = []
     
-    print(f"\nExecutando {alg_name}...\n")
+    print(f"\n\n+-----------------------------------------------------------------+\nExecutando {alg_name}...\n")
     # Gerando as listas: 
     for size in sizes:
         ordered_list = generate_ordered_list(size)
         reverse_ordered_list = generate_reverse_ordered_list(size)
         random_list = generate_random_list(size)
         
-        print(f'{alg_name} com lista de {size} itens\n')
+        print(f'\n{alg_name} com lista de {size} itens')
 
         # Ordenada
         alg_instance = AlgClass(ordered_list[:])  # Passar uma cópia da lista
         time_taken_ord, comparisons_ord, swaps_ord = run_and_measure(alg_instance, ordered_list[:])
-        print(f"Ordenada: {time_taken_ord:.2f} ms")
+        # print(f"Ordenada: {time_taken_ord:.6f} ms, {comparisons_ord} comparações, {swaps_ord} trocas")
 
         # Inversamente ordenada
         alg_instance = AlgClass(reverse_ordered_list[:])
         time_taken_inv, comparisons_inv, swaps_inv = run_and_measure(alg_instance, reverse_ordered_list[:])
-        print(f"Inversamente ordenada: {time_taken_inv:.2f} ms")
+        # print(f"Inversamente ordenada: {time_taken_inv:.6f} ms, {comparisons_inv} comparações, {swaps_inv} trocas")
 
         # Aleatória
         alg_instance = AlgClass(random_list[:])
         time_taken_rand, comparisons_rand, swaps_rand = run_and_measure(alg_instance, random_list[:])
-        print(f"Aleatória: {time_taken_rand:.2f} ms")
+        # print(f"Aleatória: {time_taken_rand:.6f} ms, {comparisons_rand} comparações, {swaps_rand} trocas")
         
+        table = [
+            ["Tipo de Lista", "Tempo (ms)", "Comparações", "Trocas"],
+            ["Ordenada", f"{time_taken_ord:.6f}", comparisons_ord, swaps_ord],
+            ["Inversamente Ordenada", f"{time_taken_inv:.6f}", comparisons_inv, swaps_inv],
+            ["Aleatória", f"{time_taken_rand:.6f}", comparisons_rand, swaps_rand],
+        ]
+
+        # Exibir a tabela formatada
+        print(tabulate(table, headers="firstrow", tablefmt="grid"))
+
         vetor_ordenada.append(time_taken_ord)
         vetor_inversa.append(time_taken_inv)
         vetor_randomica.append(time_taken_rand)
